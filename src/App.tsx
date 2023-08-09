@@ -14,12 +14,17 @@ function App() {
     }, []);
 
     const showPrompt = async () => {
-        await Device.showBiometricPrompt({
-            iosBiometricsLocalizedCancelTitle: 'cancel',
-            iosBiometricsLocalizedReason: 'reason'
-        });
-        const allowed = await Device.isBiometricsAllowed();
-        setAllowed(`Set ${allowed}`);
+        try {
+            await Device.showBiometricPrompt({
+                iosBiometricsLocalizedCancelTitle: 'cancel',
+                iosBiometricsLocalizedReason: 'reason'
+            });
+        } catch (error) {
+            console.log(error);
+        } finally {
+            const allowed = await Device.isBiometricsAllowed();
+            setAllowed(`Set ${allowed}`);
+        }
     };
 
     return (
